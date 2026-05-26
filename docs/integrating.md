@@ -1,14 +1,14 @@
 # Integrating umpire-spec into a Language Port
 
-Language ports (Python, Dart, Kotlin, etc.) consume the conformance fixtures from this repo to verify behavioral correctness. The recommended mechanism is a [mise](https://mise.jdx.dev/) task that fetches the spec at a pinned tag, verifies a SHA-256 checksum, and extracts fixtures to a local `spec/` directory.
+Language ports (Python, Dart, Kotlin, etc.) consume the conformance fixtures from this repo to verify behavioral correctness. The mechanism is a [mise](https://mise.jdx.dev/) task that fetches the spec at a pinned tag, verifies a SHA-256 checksum, and extracts fixtures to a local `spec/` directory.
 
 ## Why mise
 
-- **Cross-language**: The same `spec-sync` task works for Python, Dart, Kotlin, and any future port.
-- **Incremental**: Using `sources` and `outputs` skips the fetch when the pin hasn't changed.
-- **Dependency chaining**: Setting `depends = ["spec-sync"]` ensures `mise run test` automatically syncs the spec before running your suite.
+- **Cross-language** — the same `spec-sync` task works for Python, Dart, Kotlin, and any future port.
+- **Incremental** — `sources`/`outputs` skip the fetch when the pin hasn't changed.
+- **Dependency chaining** — `depends = ["spec-sync"]` means `mise run test` auto-syncs before running.
 
-## Canonical Snippet
+## Canonical snippet
 
 Add this to your port's `mise.toml`:
 
@@ -48,11 +48,11 @@ Adapt the `test` and `check` commands to your toolchain:
 - **Kotlin**: `run = "./gradlew test"`
 - **Python**: `run = "uv run pytest"`
 
-## Updating the Pin
+## Updating the pin
 
 When a new tag is released:
 
-1. Update `UMPIRE_SPEC_VERSION` to the new tag (e.g., `v1.1.0`).
+1. Update `UMPIRE_SPEC_VERSION` to the new tag (e.g. `v1.1.0`).
 2. Compute the new tarball SHA-256:
    ```bash
    curl -fsSL "https://github.com/umpire-tools/umpire-spec/archive/refs/tags/v1.1.0.tar.gz" | shasum -a 256
@@ -61,15 +61,15 @@ When a new tag is released:
 
 Both values live in the `[env]` block. A pin bump is a two-line diff, reviewable in a PR.
 
-## What Ports Should NOT Do
+## What ports should not do
 
 - **Do not use git submodules.** Fresh clones without `--recurse-submodules` produce a working repo with failing tests, and CI requires explicit `submodules: true` configuration everywhere.
-- **Do not publish conformance fixtures as a separate package** on PyPI, pub.dev, or Maven Central. Fixtures are test infrastructure; they are vendored at build-test time and should remain invisible to downstream consumers of your port.
-- **Do not fetch from npm.** The TS monorepo is the only consumer that ships fixtures inside its npm package (via git subtree). Language ports should fetch from this repo's GitHub releases.
+- **Do not publish conformance fixtures as a separate package** on PyPI, pub.dev, or Maven Central. Fixtures are test infrastructure — vendored at build-test time and invisible to downstream consumers.
+- **Do not fetch from npm.** The TS monorepo is the only consumer that ships fixtures inside its npm package (via git subtree). Language ports fetch from this repo's GitHub releases.
 
-## Fixture Consumption
+## Fixture consumption
 
-Once synced, your test runner loads `spec/conformance/index.json` and iterates through the entries:
+Once synced, your test runner loads `spec/conformance/index.json` and iterates:
 
 ```
 load spec/conformance/index.json

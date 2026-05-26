@@ -4,7 +4,7 @@ The cross-language conformance specification for Umpire — the portable form-lo
 
 This repository provides two artifacts:
 
-- **`umpire.schema.json`** — A JSON Schema (draft 2020-12) that validates `.umpire.json` files. You can use this in editors to enable autocomplete and inline validation without a Node.js toolchain.
+- **`umpire.schema.json`** — A JSON Schema (draft-07) that validates `.umpire.json` files. Available at `https://spec.umpire.tools/umpire.schema.json`. Editors can use this to enable autocomplete and inline validation without a Node.js toolchain.
 - **`conformance/`** — Plain JSON fixtures. Any Umpire runtime (TypeScript, Python, Dart, Kotlin, etc.) can consume these to verify behavioral correctness against the reference implementation.
 
 ## Quick Start
@@ -37,12 +37,12 @@ To enable autocomplete for `.umpire.json` files:
     "json.schemas": [
       {
         "fileMatch": ["*.umpire.json"],
-        "url": "./umpire.schema.json"
+        "url": "https://spec.umpire.tools/umpire.schema.json"
       }
     ]
   }
   ```
-- **SchemaStore**: Submission to the [SchemaStore](https://www.schemastore.org/) catalog is on the roadmap.
+- **SchemaStore**: Submission to the [SchemaStore](https://www.schemastore.org/) catalog is on the roadmap. The schema uses draft-07, which is the version SchemaStore recommends.
 
 ## Versioning
 
