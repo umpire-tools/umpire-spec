@@ -20,12 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: '22'
-      - run: corepack enable
-      - run: yarn install --immutable
-      - run: yarn workspace @umpire/spec-docs build
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run --cwd docs build
       - run: cp umpire.schema.json docs/.vitepress/dist/
       - uses: actions/upload-pages-artifact@v3
         with:

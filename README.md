@@ -10,8 +10,8 @@ This repository provides two artifacts:
 ## Quick Start
 
 ```bash
-npm install
-npm run validate
+bun install
+bun run validate
 ```
 
 This runs AJV against `umpire.schema.json`. It verifies that every conformance fixture's inner `schema` block is structurally valid and ensures that intentionally malformed documents are rejected.
