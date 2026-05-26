@@ -1,6 +1,6 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://umpire.dev/umpire.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://spec.umpire.tools/umpire.schema.json",
   "title": "Umpire JSON Schema",
   "description": "Validates .umpire.json files — the language-agnostic authoring surface for Umpire logic.",
   "type": "object",
@@ -11,39 +11,39 @@
     "conditions": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/$defs/json-condition-def"
+        "$ref": "#/definitions/json-condition-def"
       }
     },
     "fields": {
       "type": "object",
       "minProperties": 1,
       "additionalProperties": {
-        "$ref": "#/$defs/json-field-def"
+        "$ref": "#/definitions/json-field-def"
       }
     },
     "rules": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/json-rule"
+        "$ref": "#/definitions/json-rule"
       }
     },
     "validators": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/$defs/json-validator-def"
+        "$ref": "#/definitions/json-validator-def"
       }
     },
     "excluded": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/excluded-rule"
+        "$ref": "#/definitions/excluded-rule"
       }
     }
   },
   "required": ["version", "fields", "rules"],
   "additionalProperties": false,
 
-  "$defs": {
+  "definitions": {
     "json-primitive": {
       "type": ["string", "number", "boolean", "null"]
     },
@@ -52,7 +52,7 @@
       "type": "object",
       "properties": {
         "required": { "type": "boolean" },
-        "default": { "$ref": "#/$defs/json-primitive" },
+        "default": { "$ref": "#/definitions/json-primitive" },
         "isEmpty": {
           "enum": ["string", "number", "boolean", "array", "object", "present"]
         }
@@ -174,7 +174,7 @@
           "properties": {
             "op": { "const": "eq" },
             "field": { "type": "string" },
-            "value": { "$ref": "#/$defs/json-primitive" }
+            "value": { "$ref": "#/definitions/json-primitive" }
           },
           "required": ["op", "field", "value"],
           "additionalProperties": false
@@ -184,7 +184,7 @@
           "properties": {
             "op": { "const": "neq" },
             "field": { "type": "string" },
-            "value": { "$ref": "#/$defs/json-primitive" }
+            "value": { "$ref": "#/definitions/json-primitive" }
           },
           "required": ["op", "field", "value"],
           "additionalProperties": false
@@ -272,7 +272,7 @@
             "field": { "type": "string" },
             "values": {
               "type": "array",
-              "items": { "$ref": "#/$defs/json-primitive" }
+              "items": { "$ref": "#/definitions/json-primitive" }
             }
           },
           "required": ["op", "field", "values"],
@@ -285,7 +285,7 @@
             "field": { "type": "string" },
             "values": {
               "type": "array",
-              "items": { "$ref": "#/$defs/json-primitive" }
+              "items": { "$ref": "#/definitions/json-primitive" }
             }
           },
           "required": ["op", "field", "values"],
@@ -305,7 +305,7 @@
           "properties": {
             "op": { "const": "condEq" },
             "condition": { "type": "string" },
-            "value": { "$ref": "#/$defs/json-primitive" }
+            "value": { "$ref": "#/definitions/json-primitive" }
           },
           "required": ["op", "condition", "value"],
           "additionalProperties": false
@@ -317,7 +317,7 @@
             "condition": { "type": "string" },
             "values": {
               "type": "array",
-              "items": { "$ref": "#/$defs/json-primitive" }
+              "items": { "$ref": "#/definitions/json-primitive" }
             }
           },
           "required": ["op", "condition", "values"],
@@ -339,7 +339,7 @@
             "op": { "const": "and" },
             "exprs": {
               "type": "array",
-              "items": { "$ref": "#/$defs/json-expr" }
+              "items": { "$ref": "#/definitions/json-expr" }
             }
           },
           "required": ["op", "exprs"],
@@ -351,7 +351,7 @@
             "op": { "const": "or" },
             "exprs": {
               "type": "array",
-              "items": { "$ref": "#/$defs/json-expr" }
+              "items": { "$ref": "#/definitions/json-expr" }
             }
           },
           "required": ["op", "exprs"],
@@ -361,7 +361,7 @@
           "type": "object",
           "properties": {
             "op": { "const": "not" },
-            "expr": { "$ref": "#/$defs/json-expr" }
+            "expr": { "$ref": "#/definitions/json-expr" }
           },
           "required": ["op", "expr"],
           "additionalProperties": false
@@ -371,7 +371,7 @@
           "properties": {
             "op": { "const": "check" },
             "field": { "type": "string" },
-            "check": { "$ref": "#/$defs/json-validator-spec" }
+            "check": { "$ref": "#/definitions/json-validator-spec" }
           },
           "required": ["op", "field", "check"],
           "additionalProperties": false
@@ -382,7 +382,7 @@
     "json-requires-dependency": {
       "oneOf": [
         { "type": "string" },
-        { "$ref": "#/$defs/json-expr" }
+        { "$ref": "#/definitions/json-expr" }
       ]
     },
 
@@ -406,7 +406,7 @@
             "field": { "type": "string" },
             "dependencies": {
               "type": "array",
-              "items": { "$ref": "#/$defs/json-requires-dependency" }
+              "items": { "$ref": "#/definitions/json-requires-dependency" }
             },
             "reason": { "type": "string" }
           },
@@ -418,7 +418,7 @@
           "properties": {
             "type": { "const": "requires" },
             "field": { "type": "string" },
-            "when": { "$ref": "#/$defs/json-expr" },
+            "when": { "$ref": "#/definitions/json-expr" },
             "reason": { "type": "string" }
           },
           "required": ["type", "field", "when"],
@@ -429,7 +429,7 @@
           "properties": {
             "type": { "const": "enabledWhen" },
             "field": { "type": "string" },
-            "when": { "$ref": "#/$defs/json-expr" },
+            "when": { "$ref": "#/definitions/json-expr" },
             "reason": { "type": "string" }
           },
           "required": ["type", "field", "when"],
@@ -453,7 +453,7 @@
           "type": "object",
           "properties": {
             "type": { "const": "disables" },
-            "when": { "$ref": "#/$defs/json-expr" },
+            "when": { "$ref": "#/definitions/json-expr" },
             "targets": {
               "type": "array",
               "items": { "type": "string" }
@@ -488,7 +488,7 @@
               "type": "object",
               "additionalProperties": {
                 "type": "array",
-                "items": { "$ref": "#/$defs/json-rule" }
+                "items": { "$ref": "#/definitions/json-rule" }
               }
             }
           },
@@ -500,7 +500,7 @@
           "properties": {
             "type": { "const": "fairWhen" },
             "field": { "type": "string" },
-            "when": { "$ref": "#/$defs/json-expr" },
+            "when": { "$ref": "#/definitions/json-expr" },
             "reason": { "type": "string" }
           },
           "required": ["type", "field", "when"],
@@ -512,7 +512,7 @@
             "type": { "const": "anyOf" },
             "rules": {
               "type": "array",
-              "items": { "$ref": "#/$defs/json-rule" }
+              "items": { "$ref": "#/definitions/json-rule" }
             }
           },
           "required": ["type", "rules"],

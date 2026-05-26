@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import Ajv from "ajv/dist/2020.js";
+import Ajv from "ajv";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -18,7 +18,7 @@ const index = JSON.parse(
   const metaAjv = new Ajv({ allErrors: true });
   const valid = metaAjv.validateSchema(schema);
   if (!valid) {
-    console.log("umpire.schema.json is NOT valid JSON Schema 2020-12:");
+    console.log("umpire.schema.json is NOT valid JSON Schema draft-07:");
     for (const err of metaAjv.errors ?? []) {
       console.log(
         `  ${err.instancePath} ${err.message} (${JSON.stringify(err.params)})`
@@ -26,7 +26,7 @@ const index = JSON.parse(
     }
     process.exit(1);
   }
-  console.log("✓ umpire.schema.json is valid JSON Schema 2020-12\n");
+  console.log("✓ umpire.schema.json is valid JSON Schema draft-07\n");
 }
 
 const ajv = new Ajv({ allErrors: true, strict: false });
