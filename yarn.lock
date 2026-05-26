@@ -791,9 +791,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@umpire-tools/spec-docs@workspace:docs":
+"@umpire/spec-docs@workspace:docs":
   version: 0.0.0-use.local
-  resolution: "@umpire-tools/spec-docs@workspace:docs"
+  resolution: "@umpire/spec-docs@workspace:docs"
   dependencies:
     vitepress: "npm:^1.5.0"
   languageName: unknown
