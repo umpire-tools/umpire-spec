@@ -1,0 +1,13 @@
+{
+  "name": "umpire-spec",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cross-language conformance spec for Umpire — JSON Schema + fixtures",
+  "type": "module",
+  "scripts": {
+    "validate": "node validate.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1"
+  }
+}
