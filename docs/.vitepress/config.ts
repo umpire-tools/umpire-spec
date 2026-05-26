@@ -7,7 +7,7 @@ export default defineConfig({
   themeConfig: {
     appearance: 'dark',
     nav: [
-      { text: 'Schema Reference', link: '/' },
+      { text: 'Schema Reference', link: '/schema' },
       { text: 'Integrating', link: '/integrating' },
       { text: 'GitHub', link: 'https://github.com/umpire-tools/umpire-spec' },
     ],
@@ -15,7 +15,7 @@ export default defineConfig({
       {
         text: 'Spec',
         items: [
-          { text: 'Schema Reference', link: '/' },
+          { text: 'Schema Reference', link: '/schema' },
           { text: 'Integrating a Port', link: '/integrating' },
         ],
       },
