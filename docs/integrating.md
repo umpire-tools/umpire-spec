@@ -1,6 +1,6 @@
 # Integrating umpire-spec into a Language Port
 
-Language ports (Python, Dart, Kotlin, etc.) consume the conformance fixtures from this repo to verify behavioral correctness. The mechanism is a [mise](https://mise.jdx.dev/) task that fetches the spec at a pinned tag, verifies a SHA-256 checksum, and extracts fixtures to a local `spec/` directory.
+Language ports (Python, Dart, Kotlin, etc.) consume the conformance fixtures from this repo to verify behavioral correctness, using a [mise](https://mise.jdx.dev/) task that fetches the spec at a pinned tag, verifies a SHA-256 checksum, and extracts fixtures to a local `spec/` directory.
 
 ## Why mise
 
@@ -61,7 +61,7 @@ When a new tag is released:
 
 Both values live in the `[env]` block. A pin bump is a two-line diff, reviewable in a PR.
 
-## What ports should not do
+## Anti-patterns
 
 - **Do not use git submodules.** Fresh clones without `--recurse-submodules` produce a working repo with failing tests, and CI requires explicit `submodules: true` configuration everywhere.
 - **Do not publish conformance fixtures as a separate package** on PyPI, pub.dev, or Maven Central. Fixtures are test infrastructure — vendored at build-test time and invisible to downstream consumers.

@@ -17,6 +17,8 @@
 
   --umpire-blue: #2A65D9;
   --umpire-blue-soft: rgba(58, 120, 240, 0.12);
+  --umpire-mint: #1BC5AA;
+  --umpire-mint-soft: rgba(27, 197, 170, 0.12);
 }
 
 .dark {
@@ -27,6 +29,8 @@
 
   --umpire-blue: #5A90F2;
   --umpire-blue-soft: rgba(58, 120, 240, 0.16);
+  --umpire-mint: #37EA9D;
+  --umpire-mint-soft: rgba(55, 234, 157, 0.14);
 }
 
 /**
