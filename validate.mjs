@@ -13,6 +13,22 @@ const index = JSON.parse(
   readFileSync(resolve(__dirname, "conformance", "index.json"), "utf-8")
 );
 
+// --- Meta-schema: validate that umpire.schema.json is itself valid JSON Schema ---
+{
+  const metaAjv = new Ajv({ allErrors: true });
+  const valid = metaAjv.validateSchema(schema);
+  if (!valid) {
+    console.log("umpire.schema.json is NOT valid JSON Schema 2020-12:");
+    for (const err of metaAjv.errors ?? []) {
+      console.log(
+        `  ${err.instancePath} ${err.message} (${JSON.stringify(err.params)})`
+      );
+    }
+    process.exit(1);
+  }
+  console.log("✓ umpire.schema.json is valid JSON Schema 2020-12\n");
+}
+
 const ajv = new Ajv({ allErrors: true, strict: false });
 const validate = ajv.compile(schema);
 
