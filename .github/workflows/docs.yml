@@ -23,8 +23,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: corepack enable
       - run: yarn install --immutable
-      - run: yarn workspace @umpire-tools/spec-docs build
+      - run: yarn workspace @umpire/spec-docs build
       - run: cp umpire.schema.json docs/.vitepress/dist/
       - uses: actions/upload-pages-artifact@v3
         with:

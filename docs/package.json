@@ -1,5 +1,6 @@
 {
-  "name": "@umpire-tools/spec-docs",
+  "name": "@umpire/spec-docs",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
