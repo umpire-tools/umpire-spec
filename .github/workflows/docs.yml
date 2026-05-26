@@ -20,9 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - run: yarn install --immutable
-      - run: bun run --cwd docs build
+      - run: yarn workspace @umpire-tools/spec-docs build
       - run: cp umpire.schema.json docs/.vitepress/dist/
       - uses: actions/upload-pages-artifact@v3
         with:
