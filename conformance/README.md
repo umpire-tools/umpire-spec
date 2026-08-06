@@ -82,7 +82,9 @@ The current fixture set is baseball-themed. The domain is fun, but the rules are
 }
 ```
 
-A failure may also include `"metaSchema": "reject"` when its schema must be rejected by the public `umpire.schema.json`. Omit `metaSchema` when the document is structurally valid but a runtime-level validation or evaluation failure is expected.
+Include `"metaSchema": "reject"` if the public `umpire.schema.json` must reject the schema. Omit `metaSchema` if the document is structurally valid but fails runtime validation or evaluation.
+
+Because fixture files are JSON, these semantics are documented here rather than with inline comments. The `empty-*` cases in `v1-baseline-failures.json` are AJV-valid because v1 declares no `minItems` or `minLength` constraints for these members. Umpire runtime validation rejects empty dependencies, branches, composites, and excluded metadata.
 
 Failure phases:
 
