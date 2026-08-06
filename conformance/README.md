@@ -11,7 +11,7 @@ They are plain JSON so a Kotlin, Dart, Python, or other runtime can consume the 
 - prove that `fromJson()` / `toJson()` round-trip hydrated schemas exactly
 - prove that invalid schemas and missing runtime inputs fail descriptively
 
-The current fixture set is baseball-themed. The domain is fun, but the rules are small enough to read at a glance.
+The current fixture set is baseball-themed. The domain is fun, but the rules are small enough to read at a glance. The frozen v1 acceptance and rejection audit is documented in the [v1 discrepancy ledger](v1-discrepancy-ledger.md).
 
 ## Fixture Shape
 
@@ -82,6 +82,8 @@ The current fixture set is baseball-themed. The domain is fun, but the rules are
 }
 ```
 
+A failure may also include `"metaSchema": "reject"` when its schema must be rejected by the public `umpire.schema.json`. Omit `metaSchema` when the document is structurally valid but a runtime-level validation or evaluation failure is expected.
+
 Failure phases:
 
 - `validate` — the schema itself should be rejected by `validateSchema()`
@@ -115,7 +117,7 @@ for each entry in index.fixtures:
             schema   = fixture.schema,
             values   = case.values,
             conds    = case.conditions ?? {},
-            prev     = case.prev ?? {},
+            prev     = case.prev,  # preserve omission; an explicit {} stays explicit
         )
         assert result == case.expectedAvailability, case.id
 
@@ -134,13 +136,14 @@ The `expectedAvailability` map has one entry per field declared in `schema.field
 
 ```
 {
-  "enabled":  bool,
-  "fair":     bool,
-  "required": bool,
-  "reason":   string | null,   // first blocking reason, null when enabled
-  "reasons":  string[],        // all blocking reasons, [] when enabled
-  "valid":    bool,            // only present when a validator is attached to this field
-  "error":    string           // only present when validation fails (valid is false)
+  "enabled":    bool,
+  "satisfied":  bool,
+  "fair":       bool,
+  "required":   bool,
+  "reason":     string | null,   // first blocking reason, null when enabled
+  "reasons":    string[],        // all blocking reasons, [] when enabled
+  "valid":      bool,            // only present when a validator is attached to this field
+  "error":      string           // only present when validation fails (valid is false)
 }
 ```
 
