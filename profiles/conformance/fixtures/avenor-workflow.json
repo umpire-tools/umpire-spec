@@ -1,5 +1,5 @@
 {
-  "fixtureVersion": 101,
+  "fixtureVersion": 1,
   "id": "avenor-workflow",
   "description": "Avenor-shaped workflow fixture: nodes with tagged-union actions, edges, enums, constants, local $defs, and coexisting Umpire validators.",
   "profile": {
