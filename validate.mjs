@@ -51,7 +51,7 @@ if (existsSync(profileSchemaPath)) {
 
 let profileAjv20 = null;
 let validateProfileMeta = null;
-let validateValueSchema = null;
+
 
 function getProfileAjv() {
   if (!profileAjv20) {
@@ -240,15 +240,36 @@ if (existsSync(profileIndexPath)) {
       );
       expectPass(`${entry.id} (profile wrapper)`, validateProfile, fixture.profile);
 
-      // Also validate the embeded value schema against 2020-12 meta-schema
+      // Validate the embedded value schema $schema
       const valSchemas = fixture.profile.valueSchema ?? {};
-      console.log(`\n  valueSchema $schema:`);
       if (valSchemas.$schema === "https://json-schema.org/draft/2020-12/schema") {
-        console.log(`    ✓ ${entry.id} uses 2020-12`);
+        console.log(`  ✓ ${entry.id} valueSchema.$schema is 2020-12`);
         passed++;
       } else {
-        console.log(`    ✗ ${entry.id} valueSchema.$schema is not 2020-12`);
+        console.log(`  ✗ ${entry.id} valueSchema.$schema is "${String(valSchemas.$schema)}", expected "https://json-schema.org/draft/2020-12/schema"`);
         failed++;
+      }
+
+      // Compile the value schema and run case-level structural validation
+      const compileValue = ajv20.compile(valSchemas);
+      console.log(`  ${entry.id} case-level structural validation:`);
+      for (const c of fixture.cases ?? []) {
+        const valid = compileValue(c.values ?? {});
+        const issues = ajv20.errors ?? [];
+        const expectedValid = c.expectedStructure?.valid !== false;
+
+        if (valid === expectedValid) {
+          console.log(`    ✓ ${c.id} (valid=${valid})`);
+          passed++;
+        } else {
+          console.log(`    ✗ ${c.id} expected valid=${expectedValid} but got valid=${valid}`);
+          if (issues.length > 0) {
+            for (const err of issues) {
+              console.log(`      ${err.instancePath} ${err.message}`);
+            }
+          }
+          failed++;
+        }
       }
     }
   }

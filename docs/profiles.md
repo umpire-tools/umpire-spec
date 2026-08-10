@@ -5,7 +5,7 @@
 
 ## Overview
 
-The composition profile packages two independent authorities:
+The composition profile wraps two independent authorities in a single JSON document:
 
 | Authority | Responsibility |
 |-----------|---------------|
@@ -14,7 +14,7 @@ The composition profile packages two independent authorities:
 
 Neither authority is translated into the other. Structural validation runs against raw
 runtime values independently of Umpire satisfaction or availability. It must catch
-malformed values even when `isEmpty` would report them unsatisfied.
+malformed values even when `isEmpty` reports them unsatisfied.
 
 ## Canonical shape
 
@@ -80,7 +80,7 @@ Compilation must reject a profile unless:
    or colliding converted names.
 9. Integer schemas use signed 64-bit Go values but restrict schema literals and
    conformance instances to JavaScript's safe-integer range. Number schemas use finite
-   IEEE-754 binary64 values in both runtimes.
+   IEEE 754 binary64 values in both runtimes.
 10. Unsupported JSON Schema keywords fail profile compilation. They are not ignored
     or placed in Umpire `excluded`.
 
@@ -99,7 +99,7 @@ Profile v1 supports a closed, code-generatable subset:
 | **Constants** | Primitive `const` values; requires a compatible explicit type |
 | **References** | Local, acyclic root `$defs` only. Form: `{ "$ref": "#/$defs/<name>" }` |
 | **Tagged unions** | `oneOf` only. Every branch is an object with the same required discriminator property and distinct string `const` |
-| **Annotations** | `title` and `description` may be preserved but do not affect validation |
+| **Annotations** | `title` and `description` can be preserved but do not affect validation |
 
 ### Rejected JSON Schema features
 
@@ -109,7 +109,7 @@ Profile v1 compiles these (they are not silently ignored):
 |---------|-----------------|
 | Remote, dynamic, or recursive references | No network or filesystem resolution |
 | Root unions and untagged unions | Non-deterministic code generation |
-| `anyOf`, `allOf`, `not`, conditionals | Non-code-generatable |
+| `anyOf`, `allOf`, `not`, conditionals | Cannot generate code |
 | Tuple arrays and `contains` | Requires heterogeneous element schemas |
 | `uniqueItems`, `pattern`, dependent properties | Not supported in v1 |
 | `format`, `multipleOf`, content keywords | Not supported in v1 |
@@ -132,7 +132,7 @@ Profile v1 never resolves collisions with numeric suffixes.
 - **Integer schemas**: use signed 64-bit Go values (`int64`) but restrict all schema
   literals and conformance instances to JavaScript's safe-integer range
   (-(2⁵³ − 1) to 2⁵³ − 1).
-- **Number schemas**: use finite IEEE-754 binary64 values (`float64`) in both
+- **Number schemas**: use finite IEEE 754 binary64 values (`float64`) in both
   TypeScript and Go runtimes.
 - Profile compilation validates that schema bounds are within these ranges and
   rejects out-of-range values as definition issues.

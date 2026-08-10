@@ -40,7 +40,7 @@ You can also configure it manually:
 
 ## JSON Schema Composition Profile
 
-The [JSON Schema Composition Profile](/profiles) packages Umpire field availability and
+The [JSON Schema Composition Profile](/profiles) wraps Umpire field availability and
 JSON Schema structural validation into a single portable document.
 
 Profile v1 schema:

@@ -11,12 +11,16 @@
       "properties": {
         "nodes": {
           "type": "array",
-          "items": { "$ref": "#/$defs/node" },
+          "items": {
+            "$ref": "#/$defs/node"
+          },
           "minItems": 1
         },
         "edges": {
           "type": "array",
-          "items": { "$ref": "#/$defs/edge" }
+          "items": {
+            "$ref": "#/$defs/edge"
+          }
         },
         "title": {
           "type": "string",
@@ -25,7 +29,11 @@
         },
         "workflowType": {
           "type": "string",
-          "enum": ["pipeline", "fanout", "loop"]
+          "enum": [
+            "pipeline",
+            "fanout",
+            "loop"
+          ]
         },
         "version": {
           "type": "integer",
@@ -40,22 +48,43 @@
           "maximum": 10
         }
       },
-      "required": ["nodes", "title"],
+      "required": [
+        "nodes",
+        "title"
+      ],
       "additionalProperties": false,
       "$defs": {
         "node": {
           "type": "object",
           "properties": {
-            "id": { "type": "string", "minLength": 1 },
-            "action": { "$ref": "#/$defs/action" },
-            "label": { "type": "string" },
-            "timeout": { "type": "integer", "minimum": 0, "maximum": 3600 },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "action": {
+              "$ref": "#/$defs/action"
+            },
+            "label": {
+              "type": "string"
+            },
+            "timeout": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            },
             "priority": {
               "type": "string",
-              "enum": ["low", "normal", "high"]
+              "enum": [
+                "low",
+                "normal",
+                "high"
+              ]
             }
           },
-          "required": ["id", "action"],
+          "required": [
+            "id",
+            "action"
+          ],
           "additionalProperties": false
         },
         "action": {
@@ -63,30 +92,61 @@
             {
               "type": "object",
               "properties": {
-                "kind": { "const": "manual" },
-                "instructions": { "type": "string", "minLength": 1 }
+                "kind": {
+                  "const": "manual"
+                },
+                "instructions": {
+                  "type": "string",
+                  "minLength": 1
+                }
               },
-              "required": ["kind", "instructions"],
+              "required": [
+                "kind",
+                "instructions"
+              ],
               "additionalProperties": false
             },
             {
               "type": "object",
               "properties": {
-                "kind": { "const": "run" },
-                "command": { "type": "string", "minLength": 1 },
-                "timeout": { "type": "integer", "minimum": 1 }
+                "kind": {
+                  "const": "run"
+                },
+                "command": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "timeout": {
+                  "type": "integer",
+                  "minimum": 1
+                }
               },
-              "required": ["kind", "command"],
+              "required": [
+                "kind",
+                "command"
+              ],
               "additionalProperties": false
             },
             {
               "type": "object",
               "properties": {
-                "kind": { "const": "loop" },
-                "maxIterations": { "type": "integer", "minimum": 1 },
-                "condition": { "type": "string", "minLength": 1 }
+                "kind": {
+                  "const": "loop"
+                },
+                "maxIterations": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "condition": {
+                  "type": "string",
+                  "minLength": 1
+                }
               },
-              "required": ["kind", "maxIterations", "condition"],
+              "required": [
+                "kind",
+                "maxIterations",
+                "condition"
+              ],
               "additionalProperties": false
             }
           ]
@@ -94,11 +154,22 @@
         "edge": {
           "type": "object",
           "properties": {
-            "from": { "type": "string", "minLength": 1 },
-            "to": { "type": "string", "minLength": 1 },
-            "label": { "type": "string" }
+            "from": {
+              "type": "string",
+              "minLength": 1
+            },
+            "to": {
+              "type": "string",
+              "minLength": 1
+            },
+            "label": {
+              "type": "string"
+            }
           },
-          "required": ["from", "to"],
+          "required": [
+            "from",
+            "to"
+          ],
           "additionalProperties": false
         }
       }
@@ -106,28 +177,52 @@
     "umpire": {
       "version": 1,
       "conditions": {
-        "allowEdits": { "type": "boolean" }
+        "allowEdits": {
+          "type": "boolean"
+        }
       },
       "fields": {
-        "nodes": { "isEmpty": "array", "required": true },
-        "edges": { "isEmpty": "array" },
-        "title": { "isEmpty": "string", "required": true },
-        "workflowType": { "isEmpty": "string" },
-        "version": { "isEmpty": "number" },
-        "status": { "isEmpty": "string" },
-        "maxAttempts": { "isEmpty": "number" }
+        "nodes": {
+          "isEmpty": "array",
+          "required": true
+        },
+        "edges": {
+          "isEmpty": "array"
+        },
+        "title": {
+          "isEmpty": "string",
+          "required": true
+        },
+        "workflowType": {
+          "isEmpty": "string"
+        },
+        "version": {
+          "isEmpty": "number"
+        },
+        "status": {
+          "isEmpty": "string"
+        },
+        "maxAttempts": {
+          "isEmpty": "number"
+        }
       },
       "rules": [
         {
           "type": "requires",
           "field": "edges",
-          "when": { "op": "present", "field": "nodes" },
+          "when": {
+            "op": "present",
+            "field": "nodes"
+          },
           "reason": "Edges must accompany nodes"
         },
         {
           "type": "enabledWhen",
           "field": "status",
-          "when": { "op": "cond", "condition": "allowEdits" },
+          "when": {
+            "op": "cond",
+            "condition": "allowEdits"
+          },
           "reason": "Status editing is disabled"
         }
       ],
@@ -148,24 +243,40 @@
         "nodes": [
           {
             "id": "start",
-            "action": { "kind": "manual", "instructions": "Review input data" },
+            "action": {
+              "kind": "manual",
+              "instructions": "Review input data"
+            },
             "priority": "high"
           },
           {
             "id": "process",
-            "action": { "kind": "run", "command": "./process.sh" },
+            "action": {
+              "kind": "run",
+              "command": "./process.sh"
+            },
             "timeout": 300,
             "priority": "normal"
           },
           {
             "id": "loop-check",
-            "action": { "kind": "loop", "maxIterations": 5, "condition": "retryCount < 5" },
+            "action": {
+              "kind": "loop",
+              "maxIterations": 5,
+              "condition": "retryCount < 5"
+            },
             "label": "Retry loop"
           }
         ],
         "edges": [
-          { "from": "start", "to": "process" },
-          { "from": "process", "to": "loop-check" }
+          {
+            "from": "start",
+            "to": "process"
+          },
+          {
+            "from": "process",
+            "to": "loop-check"
+          }
         ],
         "title": "Data processing pipeline",
         "workflowType": "pipeline",
@@ -181,32 +292,60 @@
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": true, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "title": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": true, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": true, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": true, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     },
@@ -215,7 +354,13 @@
       "description": "Minimal valid workflow with only required properties.",
       "values": {
         "nodes": [
-          { "id": "start", "action": { "kind": "run", "command": "make" } }
+          {
+            "id": "start",
+            "action": {
+              "kind": "run",
+              "command": "make"
+            }
+          }
         ],
         "title": "Build"
       },
@@ -225,33 +370,64 @@
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": "Edges must accompany nodes", "reasons": ["Edges must accompany nodes"]
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Edges must accompany nodes",
+          "reasons": [
+            "Edges must accompany nodes"
+          ]
         },
         "title": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": false, "satisfied": false, "fair": true, "required": false,
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
           "reason": "Status editing is disabled",
-          "reasons": ["Status editing is disabled"]
+          "reasons": [
+            "Status editing is disabled"
+          ]
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     },
@@ -265,38 +441,73 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "type", "path": "/nodes" }
+          {
+            "source": "json-schema",
+            "code": "type",
+            "path": "/nodes"
+          }
         ]
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": false, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": "Edges must accompany nodes", "reasons": ["Edges must accompany nodes"]
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Edges must accompany nodes",
+          "reasons": [
+            "Edges must accompany nodes"
+          ]
         },
         "title": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": false, "satisfied": false, "fair": true, "required": false,
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
           "reason": "Status editing is disabled",
-          "reasons": ["Status editing is disabled"]
+          "reasons": [
+            "Status editing is disabled"
+          ]
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     },
@@ -305,44 +516,85 @@
       "description": "Required title is missing. Structural validation reports the missing property.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Do it" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Do it"
+            }
+          }
         ]
       },
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "required", "path": "/title" }
+          {
+            "source": "json-schema",
+            "code": "required",
+            "path": "/title"
+          }
         ]
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": "Edges must accompany nodes", "reasons": ["Edges must accompany nodes"]
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Edges must accompany nodes",
+          "reasons": [
+            "Edges must accompany nodes"
+          ]
         },
         "title": {
-          "enabled": true, "satisfied": false, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": false, "satisfied": false, "fair": true, "required": false,
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
           "reason": "Status editing is disabled",
-          "reasons": ["Status editing is disabled"]
+          "reasons": [
+            "Status editing is disabled"
+          ]
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     },
@@ -351,7 +603,13 @@
       "description": "An unknown property at root level is rejected by additionalProperties.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": "Test",
         "unknownField": "should be rejected"
@@ -359,7 +617,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "additionalProperties", "path": "/unknownField" }
+          {
+            "source": "json-schema",
+            "code": "additionalProperties",
+            "path": "/unknownField"
+          }
         ]
       }
     },
@@ -368,7 +630,13 @@
       "description": "An omitted optional property (workflowType) is structurally valid. Explicit null would fail with code: type.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": "Test"
       },
@@ -378,33 +646,64 @@
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": "Edges must accompany nodes", "reasons": ["Edges must accompany nodes"]
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Edges must accompany nodes",
+          "reasons": [
+            "Edges must accompany nodes"
+          ]
         },
         "title": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": false, "satisfied": false, "fair": true, "required": false,
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
           "reason": "Status editing is disabled",
-          "reasons": ["Status editing is disabled"]
+          "reasons": [
+            "Status editing is disabled"
+          ]
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     },
@@ -413,7 +712,13 @@
       "description": "Explicit JSON null value fails type validation. Structural validation catches it even though Umpire would treat it as an absent-like value.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": "Test",
         "workflowType": null
@@ -421,38 +726,73 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "type", "path": "/workflowType" }
+          {
+            "source": "json-schema",
+            "code": "type",
+            "path": "/workflowType"
+          }
         ]
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": "Edges must accompany nodes", "reasons": ["Edges must accompany nodes"]
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Edges must accompany nodes",
+          "reasons": [
+            "Edges must accompany nodes"
+          ]
         },
         "title": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": false, "satisfied": false, "fair": true, "required": false,
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
           "reason": "Status editing is disabled",
-          "reasons": ["Status editing is disabled"]
+          "reasons": [
+            "Status editing is disabled"
+          ]
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     },
@@ -463,7 +803,9 @@
         "nodes": [
           {
             "id": "a",
-            "action": { "instructions": "Missing discriminator" }
+            "action": {
+              "instructions": "Missing discriminator"
+            }
           }
         ],
         "title": "Test"
@@ -471,7 +813,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "required", "path": "/nodes/0/action/kind" }
+          {
+            "source": "json-schema",
+            "code": "required",
+            "path": "/nodes/0/action/kind"
+          }
         ]
       }
     },
@@ -482,7 +828,10 @@
         "nodes": [
           {
             "id": "a",
-            "action": { "kind": "automatic", "instructions": "Unknown action type" }
+            "action": {
+              "kind": "automatic",
+              "instructions": "Unknown action type"
+            }
           }
         ],
         "title": "Test"
@@ -490,7 +839,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "discriminator", "path": "/nodes/0/action/kind" }
+          {
+            "source": "json-schema",
+            "code": "discriminator",
+            "path": "/nodes/0/action/kind"
+          }
         ]
       }
     },
@@ -499,7 +852,13 @@
       "description": "workflowType enum value does not match any allowed variant.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": "Test",
         "workflowType": "unknown"
@@ -507,7 +866,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "enum", "path": "/workflowType" }
+          {
+            "source": "json-schema",
+            "code": "enum",
+            "path": "/workflowType"
+          }
         ]
       }
     },
@@ -516,7 +879,13 @@
       "description": "version const value does not match the expected literal 1.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": "Test",
         "version": 2
@@ -524,7 +893,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "const", "path": "/version" }
+          {
+            "source": "json-schema",
+            "code": "const",
+            "path": "/version"
+          }
         ]
       }
     },
@@ -538,7 +911,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "minItems", "path": "/nodes" }
+          {
+            "source": "json-schema",
+            "code": "minItems",
+            "path": "/nodes"
+          }
         ]
       }
     },
@@ -547,7 +924,13 @@
       "description": "maxAttempts exceeds the maximum bound of 10.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": "Test",
         "maxAttempts": 100
@@ -555,7 +938,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "maximum", "path": "/maxAttempts" }
+          {
+            "source": "json-schema",
+            "code": "maximum",
+            "path": "/maxAttempts"
+          }
         ]
       }
     },
@@ -564,14 +951,24 @@
       "description": "title string is empty and below minLength: 1.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": ""
       },
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "minLength", "path": "/title" }
+          {
+            "source": "json-schema",
+            "code": "minLength",
+            "path": "/title"
+          }
         ]
       }
     },
@@ -580,7 +977,13 @@
       "description": "status field passes Umpire validation (matches pattern) and has no structural issues when present with a valid value.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          }
         ],
         "title": "Test",
         "status": "draft"
@@ -594,33 +997,63 @@
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": "Edges must accompany nodes", "reasons": ["Edges must accompany nodes"]
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Edges must accompany nodes",
+          "reasons": [
+            "Edges must accompany nodes"
+          ]
         },
         "title": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": true, "satisfied": true, "fair": true, "required": false,
-          "reason": null, "reasons": [],
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": [],
           "valid": true
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     },
@@ -631,7 +1064,10 @@
         "nodes": [
           {
             "id": "a",
-            "action": { "kind": "manual", "instructions": "Go" },
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            },
             "unknownNodeProp": "not allowed"
           }
         ],
@@ -640,7 +1076,11 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "additionalProperties", "path": "/nodes/0/unknownNodeProp" }
+          {
+            "source": "json-schema",
+            "code": "additionalProperties",
+            "path": "/nodes/0/unknownNodeProp"
+          }
         ]
       }
     },
@@ -649,18 +1089,116 @@
       "description": "Edge object is missing the required 'to' property.",
       "values": {
         "nodes": [
-          { "id": "a", "action": { "kind": "manual", "instructions": "Go" } },
-          { "id": "b", "action": { "kind": "run", "command": "./b.sh" } }
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Go"
+            }
+          },
+          {
+            "id": "b",
+            "action": {
+              "kind": "run",
+              "command": "./b.sh"
+            }
+          }
         ],
         "edges": [
-          { "from": "a" }
+          {
+            "from": "a"
+          }
         ],
         "title": "Test"
       },
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "required", "path": "/edges/0/to" }
+          {
+            "source": "json-schema",
+            "code": "required",
+            "path": "/edges/0/to"
+          }
+        ]
+      }
+    },
+    {
+      "id": "title-exceeds-maxLength",
+      "description": "Title exceeds maxLength: 200 boundary.",
+      "values": {
+        "nodes": [
+          {
+            "id": "a",
+            "action": {
+              "kind": "manual",
+              "instructions": "Do it"
+            }
+          }
+        ],
+        "title": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"
+      },
+      "expectedStructure": {
+        "valid": false,
+        "issues": [
+          {
+            "source": "json-schema",
+            "code": "maxLength",
+            "path": "/title"
+          }
+        ]
+      }
+    },
+    {
+      "id": "node-timeout-exceeds-maximum",
+      "description": "Node timeout value exceeds maximum 3600 boundary.",
+      "values": {
+        "nodes": [
+          {
+            "id": "a",
+            "action": {
+              "kind": "run",
+              "command": "./build.sh"
+            },
+            "timeout": 9999
+          }
+        ],
+        "title": "Build"
+      },
+      "expectedStructure": {
+        "valid": false,
+        "issues": [
+          {
+            "source": "json-schema",
+            "code": "maximum",
+            "path": "/nodes/0/timeout"
+          }
+        ]
+      }
+    },
+    {
+      "id": "node-timeout-below-minimum",
+      "description": "Node timeout value is below minimum 0 boundary.",
+      "values": {
+        "nodes": [
+          {
+            "id": "a",
+            "action": {
+              "kind": "run",
+              "command": "./build.sh"
+            },
+            "timeout": -1
+          }
+        ],
+        "title": "Build"
+      },
+      "expectedStructure": {
+        "valid": false,
+        "issues": [
+          {
+            "source": "json-schema",
+            "code": "minimum",
+            "path": "/nodes/0/timeout"
+          }
         ]
       }
     },
@@ -674,38 +1212,73 @@
       "expectedStructure": {
         "valid": false,
         "issues": [
-          { "source": "json-schema", "code": "minItems", "path": "/nodes" }
+          {
+            "source": "json-schema",
+            "code": "minItems",
+            "path": "/nodes"
+          }
         ]
       },
       "expectedAvailability": {
         "nodes": {
-          "enabled": true, "satisfied": false, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "edges": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": "Edges must accompany nodes", "reasons": ["Edges must accompany nodes"]
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Edges must accompany nodes",
+          "reasons": [
+            "Edges must accompany nodes"
+          ]
         },
         "title": {
-          "enabled": true, "satisfied": true, "fair": true, "required": true,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": true,
+          "reason": null,
+          "reasons": []
         },
         "workflowType": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "version": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         },
         "status": {
-          "enabled": false, "satisfied": false, "fair": true, "required": false,
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
           "reason": "Status editing is disabled",
-          "reasons": ["Status editing is disabled"]
+          "reasons": [
+            "Status editing is disabled"
+          ]
         },
         "maxAttempts": {
-          "enabled": true, "satisfied": false, "fair": true, "required": false,
-          "reason": null, "reasons": []
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
         }
       }
     }

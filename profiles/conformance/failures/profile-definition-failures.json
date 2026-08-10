@@ -125,7 +125,7 @@
         }
       },
       "expectedDefinitionIssues": [
-        { "code": "unsupportedKeyword", "path": "/valueSchema/properties/tags/uniquItems" }
+        { "code": "unsupportedKeyword", "path": "/valueSchema/properties/tags/uniqueItems" }
       ]
     },
     {
