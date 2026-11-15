@@ -81,6 +81,19 @@ The `op` field discriminates between expression variants.
 |------|-----------|-------------|
 | `in` | `field`, `values` | Field value is in the list |
 | `notIn` | `field`, `values` | Field value is not in the list |
+| `contains` | `field`, `value` | Array-valued field holds the value |
+
+`in` and `notIn` compare a scalar field value against a list of primitives. They do not look inside an array value. `contains` is the reverse: the field holds an array, and `value` is one primitive to find in it.
+
+| Situation | Result |
+|-----------|--------|
+| `in` or `notIn` targets a field declared `"isEmpty": "array"` | Definition error: `"in" requires a scalar field` (or `"notIn"`) |
+| `contains` targets a field declared `"isEmpty"` as `"string"`, `"number"`, `"boolean"`, or `"object"` | Definition error: `"contains" requires an array field` |
+| `contains` evaluates a value that is not an array (absent, `null`, a scalar, or an object) | `false` |
+| `contains` evaluates an array | `true` when an element equals `value` |
+| `in` evaluates an array value on a field not declared `"isEmpty": "array"` | `false`; `notIn` is `true` |
+
+Element and list comparison is JSON equality with no type coercion: `22` does not equal `"22"`. Fields with `"isEmpty": "present"` or no `isEmpty` can be the target of any membership op.
 
 ### Conditions
 

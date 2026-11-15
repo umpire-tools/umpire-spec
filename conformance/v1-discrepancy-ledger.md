@@ -21,6 +21,14 @@ The contract is normative. A row below records implementation drift or a fixture
 | V1-11 | Conditions omitted at runtime behave as `{}`; reasons preserve first-blocking and declaration-order semantics. | Not applicable to evaluation. | Aligned in the core evaluator. | Needs production-path parity; current fixture conversion and generated reason logic are separate from the public parser. | Existing `box-score-checks`, `dugout-emptiness`, and `bad-call-sheet-failures` cases cover omitted conditions and reasons. Use the canonical index in Stage 2. |
 | V1-12 | The legacy internal array schema is not part of the public v1 contract. | Rejects array-valued public `fields` and `conditions`. | Rejects the array shape as a public JSON schema. | Drift: `Parse()` intentionally accepts the legacy internal array shape and the undocumented field `type` hint. | `v1-baseline-failures`: `legacy-internal-array-shape`. Remove this fallback from the public parser in Stage 2; keep any internal test helper private to the implementation. |
 
+## Membership against array-valued fields
+
+Added on 2026-11-15 for umpire-spec#8. V1-13 was not part of the Stage 1 freeze. Before it, no fixture ran membership against an array-valued field, and the runtimes disagreed.
+
+| ID | Normative decision | Public meta-schema | `@umpire/json` | `umpire-go-gen` | Shared fixture and action |
+| --- | --- | --- | --- | --- | --- |
+| V1-13 | `contains` (`field`, primitive `value`) is true when the field's array value holds an element equal to `value`, with JSON equality and no coercion. A value that is not an array gives `false`. `in`/`notIn` targeting a field declared `"isEmpty": "array"` is a definition error. So is `contains` targeting a field declared `"isEmpty"` as `string`, `number`, `boolean`, or `object`. On any other field, `in` against an array value is `false` and `notIn` is `true`. | Aligned: closed `contains` variant with a primitive `value`. The `isEmpty` cross-check is semantic. | Drift: no `contains` op; `in`/`notIn` on an array field compile to a constant. | Drift: array-typed `in`/`notIn` emit Go that does not compile (umpire-go-gen#14); no `contains` op. | `array-membership` fixture. `v1-baseline-failures`: `in-targets-array-field`, `nested-not-in-targets-array-field`, `contains-targets-string-field`, `contains-targets-object-field`, `contains-unknown-field`, `contains-missing-value`, `contains-non-primitive-value`. Every interpreter and the generator add `contains` and the two definition errors. `umpire-dart` already evaluates `contains`. |
+
 ## Fixture conventions
 
 `conformance/fixtures/v1-baseline.json` is an accepted public document and contains the normative status cases named in V1-06, V1-08, V1-09, and V1-10.
