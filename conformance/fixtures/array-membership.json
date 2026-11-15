@@ -1,7 +1,7 @@
 {
   "id": "array-membership",
   "fixtureVersion": 1,
-  "description": "contains finds one primitive in an array-valued field with JSON equality and no type coercion; in and notIn never look inside an array value.",
+  "description": "contains finds one primitive in an array-valued field with JSON equality and no type coercion (booleans are not numbers, strings are not numbers); in and notIn never look inside an array value.",
   "schema": {
     "version": 1,
     "fields": {
@@ -18,7 +18,16 @@
       "scoutContainsGate": {},
       "scoutInGate": {},
       "scoutNotInGate": {},
-      "pinchHitter": {}
+      "pinchHitter": {},
+      "onDeck": {},
+      "lineupSlots": {
+        "isEmpty": "present"
+      },
+      "trueGate": {},
+      "stringTwentyTwoGate": {},
+      "nullGate": {},
+      "onDeckInGate": {},
+      "presentContainsGate": {}
     },
     "rules": [
       {
@@ -99,6 +108,58 @@
           }
         ],
         "reason": "Judge must be available to pinch hit"
+      },
+      {
+        "type": "enabledWhen",
+        "field": "trueGate",
+        "when": {
+          "op": "contains",
+          "field": "jerseyNumbers",
+          "value": true
+        },
+        "reason": "A true flag must be listed"
+      },
+      {
+        "type": "enabledWhen",
+        "field": "stringTwentyTwoGate",
+        "when": {
+          "op": "contains",
+          "field": "jerseyNumbers",
+          "value": "22"
+        },
+        "reason": "The string 22 must be listed"
+      },
+      {
+        "type": "enabledWhen",
+        "field": "nullGate",
+        "when": {
+          "op": "contains",
+          "field": "jerseyNumbers",
+          "value": null
+        },
+        "reason": "An empty slot must be listed"
+      },
+      {
+        "type": "enabledWhen",
+        "field": "onDeckInGate",
+        "when": {
+          "op": "in",
+          "field": "onDeck",
+          "values": [
+            1
+          ]
+        },
+        "reason": "Batter one must be on deck"
+      },
+      {
+        "type": "enabledWhen",
+        "field": "presentContainsGate",
+        "when": {
+          "op": "contains",
+          "field": "lineupSlots",
+          "value": "Soto"
+        },
+        "reason": "Soto must hold a lineup slot"
       }
     ]
   },
@@ -199,6 +260,72 @@
           "reasons": [
             "Judge must be available to pinch hit"
           ]
+        },
+        "onDeck": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "lineupSlots": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "trueGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "A true flag must be listed",
+          "reasons": [
+            "A true flag must be listed"
+          ]
+        },
+        "stringTwentyTwoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "The string 22 must be listed",
+          "reasons": [
+            "The string 22 must be listed"
+          ]
+        },
+        "nullGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "An empty slot must be listed",
+          "reasons": [
+            "An empty slot must be listed"
+          ]
+        },
+        "onDeckInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Batter one must be on deck",
+          "reasons": [
+            "Batter one must be on deck"
+          ]
+        },
+        "presentContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must hold a lineup slot",
+          "reasons": [
+            "Soto must hold a lineup slot"
+          ]
         }
       }
     },
@@ -296,6 +423,72 @@
           "reason": "Judge must be available to pinch hit",
           "reasons": [
             "Judge must be available to pinch hit"
+          ]
+        },
+        "onDeck": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "lineupSlots": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "trueGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "A true flag must be listed",
+          "reasons": [
+            "A true flag must be listed"
+          ]
+        },
+        "stringTwentyTwoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "The string 22 must be listed",
+          "reasons": [
+            "The string 22 must be listed"
+          ]
+        },
+        "nullGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "An empty slot must be listed",
+          "reasons": [
+            "An empty slot must be listed"
+          ]
+        },
+        "onDeckInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Batter one must be on deck",
+          "reasons": [
+            "Batter one must be on deck"
+          ]
+        },
+        "presentContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must hold a lineup slot",
+          "reasons": [
+            "Soto must hold a lineup slot"
           ]
         }
       }
@@ -396,6 +589,72 @@
           "reason": "Judge must be available to pinch hit",
           "reasons": [
             "Judge must be available to pinch hit"
+          ]
+        },
+        "onDeck": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "lineupSlots": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "trueGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "A true flag must be listed",
+          "reasons": [
+            "A true flag must be listed"
+          ]
+        },
+        "stringTwentyTwoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "The string 22 must be listed",
+          "reasons": [
+            "The string 22 must be listed"
+          ]
+        },
+        "nullGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "An empty slot must be listed",
+          "reasons": [
+            "An empty slot must be listed"
+          ]
+        },
+        "onDeckInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Batter one must be on deck",
+          "reasons": [
+            "Batter one must be on deck"
+          ]
+        },
+        "presentContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must hold a lineup slot",
+          "reasons": [
+            "Soto must hold a lineup slot"
           ]
         }
       }
@@ -501,6 +760,72 @@
           "required": false,
           "reason": null,
           "reasons": []
+        },
+        "onDeck": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "lineupSlots": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "trueGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "A true flag must be listed",
+          "reasons": [
+            "A true flag must be listed"
+          ]
+        },
+        "stringTwentyTwoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "The string 22 must be listed",
+          "reasons": [
+            "The string 22 must be listed"
+          ]
+        },
+        "nullGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "An empty slot must be listed",
+          "reasons": [
+            "An empty slot must be listed"
+          ]
+        },
+        "onDeckInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Batter one must be on deck",
+          "reasons": [
+            "Batter one must be on deck"
+          ]
+        },
+        "presentContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must hold a lineup slot",
+          "reasons": [
+            "Soto must hold a lineup slot"
+          ]
         }
       }
     },
@@ -607,6 +932,405 @@
           "reason": "Judge must be available to pinch hit",
           "reasons": [
             "Judge must be available to pinch hit"
+          ]
+        },
+        "onDeck": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "lineupSlots": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "trueGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "A true flag must be listed",
+          "reasons": [
+            "A true flag must be listed"
+          ]
+        },
+        "stringTwentyTwoGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "nullGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "An empty slot must be listed",
+          "reasons": [
+            "An empty slot must be listed"
+          ]
+        },
+        "onDeckInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Batter one must be on deck",
+          "reasons": [
+            "Batter one must be on deck"
+          ]
+        },
+        "presentContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must hold a lineup slot",
+          "reasons": [
+            "Soto must hold a lineup slot"
+          ]
+        }
+      }
+    },
+    {
+      "id": "booleans-objects-and-strings-are-not-numbers",
+      "values": {
+        "jerseyNumbers": [
+          1,
+          0
+        ],
+        "onDeck": true,
+        "scoutTags": {
+          "lefty": 1
+        },
+        "lineupSlots": [
+          "Soto"
+        ]
+      },
+      "expectedAvailability": {
+        "benchBats": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "jerseyNumbers": {
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "scoutTags": {
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "sotoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must be on the bench",
+          "reasons": [
+            "Soto must be on the bench"
+          ]
+        },
+        "noVolpeGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "numberGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Number 22 must be dressed",
+          "reasons": [
+            "Number 22 must be dressed"
+          ]
+        },
+        "scoutContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Scouts must tag a lefty",
+          "reasons": [
+            "Scouts must tag a lefty"
+          ]
+        },
+        "scoutInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Scout tag must be lefty",
+          "reasons": [
+            "Scout tag must be lefty"
+          ]
+        },
+        "scoutNotInGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "pinchHitter": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Judge must be available to pinch hit",
+          "reasons": [
+            "Judge must be available to pinch hit"
+          ]
+        },
+        "onDeck": {
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "lineupSlots": {
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "trueGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "A true flag must be listed",
+          "reasons": [
+            "A true flag must be listed"
+          ]
+        },
+        "stringTwentyTwoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "The string 22 must be listed",
+          "reasons": [
+            "The string 22 must be listed"
+          ]
+        },
+        "nullGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "An empty slot must be listed",
+          "reasons": [
+            "An empty slot must be listed"
+          ]
+        },
+        "onDeckInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Batter one must be on deck",
+          "reasons": [
+            "Batter one must be on deck"
+          ]
+        },
+        "presentContainsGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        }
+      }
+    },
+    {
+      "id": "booleans-and-null-match-themselves",
+      "values": {
+        "jerseyNumbers": [
+          true,
+          null
+        ],
+        "onDeck": 1,
+        "lineupSlots": "Soto"
+      },
+      "expectedAvailability": {
+        "benchBats": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "jerseyNumbers": {
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "scoutTags": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "sotoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must be on the bench",
+          "reasons": [
+            "Soto must be on the bench"
+          ]
+        },
+        "noVolpeGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "numberGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Number 22 must be dressed",
+          "reasons": [
+            "Number 22 must be dressed"
+          ]
+        },
+        "scoutContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Scouts must tag a lefty",
+          "reasons": [
+            "Scouts must tag a lefty"
+          ]
+        },
+        "scoutInGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Scout tag must be lefty",
+          "reasons": [
+            "Scout tag must be lefty"
+          ]
+        },
+        "scoutNotInGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "pinchHitter": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Judge must be available to pinch hit",
+          "reasons": [
+            "Judge must be available to pinch hit"
+          ]
+        },
+        "onDeck": {
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "lineupSlots": {
+          "enabled": true,
+          "satisfied": true,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "trueGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "stringTwentyTwoGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "The string 22 must be listed",
+          "reasons": [
+            "The string 22 must be listed"
+          ]
+        },
+        "nullGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "onDeckInGate": {
+          "enabled": true,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": null,
+          "reasons": []
+        },
+        "presentContainsGate": {
+          "enabled": false,
+          "satisfied": false,
+          "fair": true,
+          "required": false,
+          "reason": "Soto must hold a lineup slot",
+          "reasons": [
+            "Soto must hold a lineup slot"
           ]
         }
       }

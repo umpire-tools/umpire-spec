@@ -561,6 +561,206 @@
         ]
       },
       "errorIncludes": "value"
+    },
+    {
+      "id": "in-under-disables-when",
+      "phase": "validate",
+      "schema": {
+        "version": 1,
+        "fields": {
+          "benchBats": {
+            "isEmpty": "array"
+          },
+          "pinchHitter": {}
+        },
+        "rules": [
+          {
+            "type": "disables",
+            "when": {
+              "op": "in",
+              "field": "benchBats",
+              "values": [
+                "Soto"
+              ]
+            },
+            "targets": [
+              "pinchHitter"
+            ]
+          }
+        ]
+      },
+      "errorIncludes": "\"in\" requires a scalar field"
+    },
+    {
+      "id": "not-in-inside-any-of",
+      "phase": "validate",
+      "schema": {
+        "version": 1,
+        "fields": {
+          "benchBats": {
+            "isEmpty": "array"
+          },
+          "pitchType": {
+            "isEmpty": "string"
+          },
+          "closerReady": {}
+        },
+        "rules": [
+          {
+            "type": "anyOf",
+            "rules": [
+              {
+                "type": "enabledWhen",
+                "field": "closerReady",
+                "when": {
+                  "op": "present",
+                  "field": "pitchType"
+                }
+              },
+              {
+                "type": "enabledWhen",
+                "field": "closerReady",
+                "when": {
+                  "op": "notIn",
+                  "field": "benchBats",
+                  "values": [
+                    "Volpe"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "errorIncludes": "\"notIn\" requires a scalar field"
+    },
+    {
+      "id": "in-inside-either-of-branch",
+      "phase": "validate",
+      "schema": {
+        "version": 1,
+        "fields": {
+          "benchBats": {
+            "isEmpty": "array"
+          },
+          "pitchType": {
+            "isEmpty": "string"
+          },
+          "submit": {}
+        },
+        "rules": [
+          {
+            "type": "eitherOf",
+            "group": "lineup",
+            "branches": {
+              "scout": [
+                {
+                  "type": "enabledWhen",
+                  "field": "submit",
+                  "when": {
+                    "op": "present",
+                    "field": "pitchType"
+                  }
+                }
+              ],
+              "bench": [
+                {
+                  "type": "enabledWhen",
+                  "field": "submit",
+                  "when": {
+                    "op": "in",
+                    "field": "benchBats",
+                    "values": [
+                      "Soto"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errorIncludes": "\"in\" requires a scalar field"
+    },
+    {
+      "id": "field-in-cond-targets-array-field",
+      "phase": "validate",
+      "schema": {
+        "version": 1,
+        "conditions": {
+          "availableStarters": {
+            "type": "string[]"
+          }
+        },
+        "fields": {
+          "benchBats": {
+            "isEmpty": "array"
+          },
+          "starterGate": {}
+        },
+        "rules": [
+          {
+            "type": "enabledWhen",
+            "field": "starterGate",
+            "when": {
+              "op": "fieldInCond",
+              "field": "benchBats",
+              "condition": "availableStarters"
+            }
+          }
+        ]
+      },
+      "errorIncludes": "\"fieldInCond\" requires a scalar field"
+    },
+    {
+      "id": "contains-targets-number-field",
+      "phase": "validate",
+      "schema": {
+        "version": 1,
+        "fields": {
+          "inning": {
+            "isEmpty": "number"
+          },
+          "lateGate": {}
+        },
+        "rules": [
+          {
+            "type": "enabledWhen",
+            "field": "lateGate",
+            "when": {
+              "op": "contains",
+              "field": "inning",
+              "value": 9
+            }
+          }
+        ]
+      },
+      "errorIncludes": "\"contains\" requires an array field"
+    },
+    {
+      "id": "contains-targets-boolean-field",
+      "phase": "validate",
+      "schema": {
+        "version": 1,
+        "fields": {
+          "bullpenReady": {
+            "isEmpty": "boolean"
+          },
+          "closerGate": {}
+        },
+        "rules": [
+          {
+            "type": "requires",
+            "field": "closerGate",
+            "when": {
+              "op": "contains",
+              "field": "bullpenReady",
+              "value": true
+            }
+          }
+        ]
+      },
+      "errorIncludes": "\"contains\" requires an array field"
     }
   ]
 }

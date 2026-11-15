@@ -64,7 +64,7 @@
     {
       "id": "array-membership",
       "path": "fixtures/array-membership.json",
-      "description": "contains finds one primitive in an array-valued field with JSON equality and no type coercion; in and notIn never look inside an array value."
+      "description": "contains finds one primitive in an array-valued field with JSON equality and no type coercion (booleans are not numbers, strings are not numbers); in and notIn never look inside an array value."
     }
   ],
   "failures": [
